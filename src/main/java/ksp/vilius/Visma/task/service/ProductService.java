@@ -2,6 +2,7 @@ package ksp.vilius.Visma.task.service;
 
 import ksp.vilius.Visma.task.model.Product;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,5 +17,9 @@ public interface ProductService {
     void deleteProduct(Long id);
 
     Product updateProduct(Product updatedProduct, Long productToBeUpdatedId);
+
+    List<Product> getProductWithQuantity(int quantity);
+
+    List<Product> getProductUntilExpireDate(LocalDate date);
 
 }

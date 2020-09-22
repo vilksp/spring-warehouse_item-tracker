@@ -4,6 +4,7 @@ import ksp.vilius.Visma.task.model.Product;
 import ksp.vilius.Visma.task.service.ProductService;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +46,18 @@ public class ProductController {
     public Product updateProject(@PathVariable Long id, @RequestBody Product product) {
 
         return productService.updateProduct(product, id);
+    }
+
+    @GetMapping("/quantity/{quantity}")
+    public List<Product> getProductsWithCertainQuantity(@PathVariable int quantity) {
+
+        return productService.getProductWithQuantity(quantity);
+    }
+
+    @GetMapping("/expiration/{date}")
+    public List<Product> getProductUntilExpireDate(@PathVariable String date) {
+        LocalDate dateParse = LocalDate.parse(date);
+        return productService.getProductUntilExpireDate(dateParse);
     }
 
 }

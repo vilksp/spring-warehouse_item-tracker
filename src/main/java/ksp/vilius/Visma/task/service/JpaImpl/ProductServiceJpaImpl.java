@@ -6,6 +6,8 @@ import ksp.vilius.Visma.task.service.ProductService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -56,5 +58,31 @@ public class ProductServiceJpaImpl implements ProductService {
         log.info("The product has been updated successfully");
 
         return productRepository.save(productUpdated);
+    }
+
+    @Override
+    public List<Product> getProductWithQuantity(int quantity) {
+        List<Product> list = new ArrayList<>();
+
+        productRepository.findAll().forEach(prod -> {
+            if (prod.getQuantity() < quantity) {
+                list.add(prod);
+            }
+        });
+        log.info("Retrieving products with quantity lesser than: " + quantity);
+        return list;
+    }
+
+    @Override
+    public List<Product> getProductUntilExpireDate(LocalDate date) {
+        List<Product> list = new ArrayList<>();
+
+        productRepository.findAll().forEach(prod -> {
+            if (prod.getExpiryDate().isBefore(date)) {
+                list.add(prod);
+            }
+        });
+        log.info("Retrieving products whose expiration date is not equal to: " + date);
+        return list;
     }
 }
