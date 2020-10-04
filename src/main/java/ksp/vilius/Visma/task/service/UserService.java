@@ -3,6 +3,7 @@ package ksp.vilius.Visma.task.service;
 import ksp.vilius.Visma.task.model.User;
 import ksp.vilius.Visma.task.repository.UserRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -10,10 +11,17 @@ import org.springframework.stereotype.Service;
 public class UserService {
 
     private final UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    private void SignUp(User user) {
+    public void signUp(User user) {
 
-        userRepository.save(user);
+        User newUser = new User();
+        newUser.setUsername(user.getUsername());
+        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+
+        userRepository.save(newUser);
 
     }
+
+
 }
