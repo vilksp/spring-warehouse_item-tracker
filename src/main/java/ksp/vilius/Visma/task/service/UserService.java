@@ -1,5 +1,6 @@
 package ksp.vilius.Visma.task.service;
 
+import ksp.vilius.Visma.task.exception.ProductException;
 import ksp.vilius.Visma.task.model.User;
 import ksp.vilius.Visma.task.repository.UserRepository;
 import lombok.AllArgsConstructor;
@@ -15,13 +16,18 @@ public class UserService {
 
     public void signUp(User user) {
 
-        User newUser = new User();
-        newUser.setUsername(user.getUsername());
-        newUser.setPassword(passwordEncoder.encode(user.getPassword()));
+        try {
+            User newUser = new User();
+            newUser.setUsername(user.getUsername());
+            newUser.setPassword(passwordEncoder.encode(user.getPassword()));
 
-        userRepository.save(newUser);
+            userRepository.save(newUser);
+        } catch (Exception e) {
+            throw new ProductException("Your nickname is already in use");
+        }
 
     }
+
 
 
 }
