@@ -3,6 +3,7 @@ package ksp.vilius.Visma.task.controller;
 import ksp.vilius.Visma.task.dto.ProductDto;
 import ksp.vilius.Visma.task.model.Product;
 import ksp.vilius.Visma.task.service.ProductService;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
@@ -26,7 +27,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public Optional<Product> getProductById(@PathVariable Long id) {
+    public Product getProductById(@PathVariable Long id) {
 
         return productService.getProductById(id);
     }

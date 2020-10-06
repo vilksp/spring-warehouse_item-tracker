@@ -1,8 +1,10 @@
 package ksp.vilius.Visma.task.config;
 
-import java.util.Set;
-
 import com.google.common.collect.Sets;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import static ksp.vilius.Visma.task.config.ApplicationUserPermission.*;
 
@@ -18,6 +20,14 @@ public enum ApplicationUserRole {
     }
 
     public Set<ApplicationUserPermission> getPermissions() {
+        return permissions;
+    }
+
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities() {
+        Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
+                .map(x -> new SimpleGrantedAuthority(x.getPermission()))
+                .collect(Collectors.toSet());
+        permissions.add(new SimpleGrantedAuthority("ROLE_" + this.name()));
         return permissions;
     }
 }

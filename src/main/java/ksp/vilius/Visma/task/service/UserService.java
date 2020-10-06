@@ -21,9 +21,9 @@ public class UserService {
 
         try {
             User user = new User();
-            user.setUsername(user.getUsername());
+            user.setUsername(userDto.getUsername());
             user.setEmail(userDto.getEmail());
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
+            user.setPassword(passwordEncoder.encode(userDto.getPassword()));
             user.setAccountCreationDate(LocalDate.now());
 
             userRepository.save(user);

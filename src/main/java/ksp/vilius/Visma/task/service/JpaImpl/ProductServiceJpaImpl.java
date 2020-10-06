@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -30,9 +29,9 @@ public class ProductServiceJpaImpl implements ProductService {
     }
 
     @Override
-    public Optional<Product> getProductById(Long id) {
+    public Product getProductById(Long id) {
 
-        return productRepository.findById(id);
+        return productRepository.findById(id).orElseThrow(()-> new ProductException("No such id"));
     }
 
     @Override
@@ -70,6 +69,9 @@ public class ProductServiceJpaImpl implements ProductService {
 
     @Override
     public List<Product> getProductWithQuantity(int quantity) {
+        if(quantity<0){
+            throw  new ProductException("Quantity can't be less than 0!");
+        }
         List<Product> list = new ArrayList<>();
 
         productRepository.findAll().forEach(prod -> {
