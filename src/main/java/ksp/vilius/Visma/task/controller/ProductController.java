@@ -1,5 +1,6 @@
 package ksp.vilius.Visma.task.controller;
 
+import ksp.vilius.Visma.task.dto.ProductDto;
 import ksp.vilius.Visma.task.model.Product;
 import ksp.vilius.Visma.task.service.ProductService;
 import org.springframework.web.bind.annotation.*;
@@ -31,9 +32,9 @@ public class ProductController {
     }
 
     @PostMapping
-    public Product createProduct(@RequestBody Product product) {
+    public Product createProduct(@RequestBody ProductDto productDto) {
 
-        return productService.createProduct(product);
+        return productService.createProduct(productDto);
     }
 
     @DeleteMapping("/{id}")
@@ -43,9 +44,9 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
-    public Product updateProject(@PathVariable Long id, @RequestBody Product product) {
+    public Product updateProject(@PathVariable Long id, @RequestBody ProductDto productDto) {
 
-        return productService.updateProduct(product, id);
+        return productService.updateProduct(productDto, id);
     }
 
     @GetMapping("/quantity/{quantity}")

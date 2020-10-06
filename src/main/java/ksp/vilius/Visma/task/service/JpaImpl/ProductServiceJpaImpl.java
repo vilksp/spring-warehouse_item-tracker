@@ -1,5 +1,7 @@
 package ksp.vilius.Visma.task.service.JpaImpl;
 
+import ksp.vilius.Visma.task.dto.ProductDto;
+import ksp.vilius.Visma.task.exception.ProductException;
 import ksp.vilius.Visma.task.model.Product;
 import ksp.vilius.Visma.task.repository.ProductRepository;
 import ksp.vilius.Visma.task.service.ProductService;
@@ -34,7 +36,13 @@ public class ProductServiceJpaImpl implements ProductService {
     }
 
     @Override
-    public Product createProduct(Product product) {
+    public Product createProduct(ProductDto productDto) {
+        Product product = new Product();
+        product.setProductName(productDto.getProductName());
+        product.setProductDescription(productDto.getProductDescription());
+        product.setQuantity(productDto.getQuantity());
+        product.setExpiryDate(productDto.getExpiryDate());
+
         log.info("New product has been created with name of: " + product.getProductName());
         return productRepository.save(product);
     }
@@ -47,14 +55,14 @@ public class ProductServiceJpaImpl implements ProductService {
     }
 
     @Override
-    public Product updateProduct(Product updatedProduct, Long productToBeUpdatedId) {
+    public Product updateProduct(ProductDto productDto, Long productToBeUpdatedId) {
         Product productUpdated = productRepository
                 .findById(productToBeUpdatedId)
-                .orElseThrow(() -> new RuntimeException("No such product with that id"));
-        productUpdated.setProductName(updatedProduct.getProductName());
-        productUpdated.setProductDescription(updatedProduct.getProductDescription());
-        productUpdated.setExpiryDate(updatedProduct.getExpiryDate());
-        productUpdated.setQuantity(updatedProduct.getQuantity());
+                .orElseThrow(() -> new ProductException("No such product with that id"));
+        productUpdated.setProductName(productDto.getProductName());
+        productUpdated.setProductDescription(productDto.getProductDescription());
+        productUpdated.setExpiryDate(productDto.getExpiryDate());
+        productUpdated.setQuantity(productDto.getQuantity());
         log.info("The product has been updated successfully");
 
         return productRepository.save(productUpdated);

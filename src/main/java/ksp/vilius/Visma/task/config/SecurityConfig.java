@@ -21,13 +21,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.httpBasic().and()
+        http
+                .httpBasic()
+                .and()
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/user/**").permitAll()
-                .and()
-                .authorizeRequests()
-                .antMatchers("api/v1/products").hasAnyRole(WAREHOUSE.name())
+                .antMatchers(HttpMethod.GET, "/api/v1/products", "/api/v1/products/**").hasRole(WAREHOUSE.name())
                 .anyRequest()
                 .authenticated()
                 .and()
@@ -55,6 +55,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .roles(ADMIN.name())
                 .build();
 
-        return new InMemoryUserDetailsManager(anna, linda);
+        UserDetails tom = User.builder()
+                .username("tom")
+                .password(passwordEncoder().encode("password123"))
+                .roles(MANAGER.name())
+                .build();
+
+        return new InMemoryUserDetailsManager(anna, linda, tom);
     }
 }

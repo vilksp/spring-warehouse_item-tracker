@@ -1,6 +1,6 @@
 package ksp.vilius.Visma.task.controller;
 
-import ksp.vilius.Visma.task.model.User;
+import ksp.vilius.Visma.task.dto.UserDto;
 import ksp.vilius.Visma.task.service.UserService;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,9 +19,9 @@ public class UserController {
 
 
     @PostMapping("/signup")
-    private void CreateUser(@RequestBody User user) {
+    private void CreateUser(@RequestBody UserDto userDto) {
 
-        userService.signUp(user);
+        userService.signUp(userDto);
         log.info("new user has been created");
     }
 }
