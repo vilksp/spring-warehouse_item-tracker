@@ -27,7 +27,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers(HttpMethod.POST, "/api/v1/user/**").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v1/products", "/api/v1/products/**").hasRole(WAREHOUSE.name())
+                .antMatchers(HttpMethod.GET, "/api/v1/products", "/api/v1/products/**").hasRole(WAREHOUSE.name()) // Warehouse worker will have only access to GET data
+                .antMatchers("/api/v1/products", "/api/v1/products/**").hasAnyRole(MANAGER.name(), ADMIN.name()) // Manager will have all access to product api
+                .antMatchers("/api/v1/**").hasRole(ADMIN.name()) // admin will have all access to all API's
                 .anyRequest()
                 .authenticated()
                 .and()

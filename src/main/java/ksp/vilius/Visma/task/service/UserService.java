@@ -28,7 +28,7 @@ public class UserService {
 
             userRepository.save(user);
         } catch (Exception e) {
-            throw new ProductException("Your nickname is already in use");
+            throw new ProductException("Your username or email is already in use!");
         }
 
     }
